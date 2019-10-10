@@ -14,3 +14,40 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+
+Route::post('/users/edit/profile',"ProfileController@editProfile")->middleware('auth')->name('edit-profile');
+
+Route::get('/users/subscriptions',"SubscriptionController@showSubscriptions")->middleware('auth')->name('subscriptions');
+
+Route::get('/users/subscriptions/{planId}',"SubscriptionController@subscribeUser")->middleware('auth');
+
+Route::get('/users/view/subscriptions',"SubscriptionController@showPlan")->middleware('auth');
+
+
+
+Route::post('/pay', 'RaveController@initialize')->name('pay');
+Route::post('/rave/callback', 'RaveController@callback')->name('callback');
+
+Route::get('/transactions', 'TransactionsController@index')->middleware('auth');
+Route::post('/transactions/add', 'TransactionsController@store')->middleware('auth');
+Route::get('/transactions/{id}', 'TransactionsController@show')->middleware('auth');
+Route::post('/transactions/delete/{id}', 'TransactionsController@destroy')->middleware('auth');
+
+Route::get('country', 'CountryController@country');
+
+Route::get('state', 'StateController@state');
+
+Route::get('currency', 'CurrencyController@currency');
+
+Route::get('tasks','TaskController@getAllTasks')->middleware('auth');
+Route::get('tasks/{id}', 'TaskController@getTask')->middleware('auth');
+Route::post('tasks', 'TaskController@createTask')->middleware('auth');
+Route::put('tasks/{id}', 'TaskController@updateTask')->middleware('auth');
+Route::delete('tasks/{id}','TaskController@deleteTask')->middleware('auth');
+
+
+
